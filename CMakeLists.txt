@@ -3,4 +3,4 @@ project(Lab1)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(Lab1 main.cpp BidList.cpp BidList.h)
+add_executable(Lab1 main.cpp Models/BidList.cpp Models/BidList.h Menu/MyMenu.cpp Menu/MyMenu.h Menu/MyMenuItem.cpp Menu/MyMenuItem.h)

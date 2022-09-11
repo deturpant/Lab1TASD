@@ -3,9 +3,9 @@
 /cmake-build-debug/.ninja_log
 /cmake-build-debug/CMakeFiles/3.23.2/CompilerIdC/a.out
 /cmake-build-debug/CMakeFiles/3.23.2/CompilerIdCXX/a.out
-/BidList.cpp
+/Models/BidList.cpp
 /cmake-build-debug/CMakeFiles/Lab1.dir/BidList.cpp.o
-/BidList.h
+/Models/BidList.h
 /cmake-build-debug/build.ninja
 /cmake-build-debug/.cmake/api/v1/query/cache-v2
 /cmake-build-debug/.cmake/api/v1/reply/cache-v2-4165ab23c7772994d6e1.json

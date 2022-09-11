@@ -18,18 +18,21 @@ namespace KVA {
         int lenList{};
         int findEl(char _data);
         BidList CopyList();
+        void add(char _data);
+        void delet(int num);
+        bool isListEmpty();
     public:
         BidList();
         void printList();
-        void AddToStart(char _data);
-        void AddToEnd(char _data);
-        void AddToMid(char _data);
-        bool isListEmpty();
-        void DeleteElementNumber(int num);
-        void findElement(char _data);
-        void DeleteElementData(char _data);
+        void AddToStart();
+        void AddToEnd();
+        void AddToMid();
+        void DeleteElementNumber();
+        void findElement();
+        void DeleteElementData();
         void DeleteList();
         void NotRepet();
+        void printEmpty();
     };
 
 } // KVA

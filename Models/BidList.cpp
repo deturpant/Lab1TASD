@@ -21,7 +21,10 @@ namespace KVA {
         std::cout << std::endl;
     }
 
-    void BidList::AddToEnd(char _data) {
+    void BidList::AddToEnd() {
+        char _data{};
+        std::cout << "Введите символ для добавления в список: ";
+        std::cin >> _data;
         lenList++;
         Node *tmp = new Node;
         tmp->next = nullptr;
@@ -36,7 +39,10 @@ namespace KVA {
         }
     }
 
-    void BidList::AddToStart(char _data) {
+    void BidList::AddToStart() {
+        char _data{};
+        std::cout << "Введите символ для добавления в список: ";
+        std::cin >> _data;
         lenList++;
         Node *tmp = new Node;
         tmp->data = _data;
@@ -51,7 +57,10 @@ namespace KVA {
         }
     }
 
-    void BidList::AddToMid(char _data) {
+    void BidList::AddToMid() {
+        char _data{};
+        std::cout << "Введите символ для добавления в список: ";
+        std::cin >> _data;
         Node *tmp = new Node;
         tmp->data = _data;
         Node *cyc = new Node;
@@ -73,7 +82,11 @@ namespace KVA {
         }
     }
 
-    void BidList::DeleteElementNumber(int num) {
+    void BidList::DeleteElementNumber() {
+        int num{};
+        printList();
+        std::cout << "Пожалуйства, введите номер для удаления: ";
+        std::cin >> num;
         if (lenList < num || num <= 0) {
             std::cout << "Введен неверный индекс. Удаление невозможно\n";
 
@@ -103,13 +116,52 @@ namespace KVA {
                 tmp->next = NULL;
             }
             std::cout << "Удаление успешно завершено!\n";
+            lenList--;
         }
 
     }
 
-    void BidList::DeleteElementData(char _data) {
+    void BidList::delet(int num) {
+        if (lenList < num || num <= 0) {
+            std::cout << "Введен неверный индекс. Удаление невозможно\n";
+
+        } else {
+            num--;
+            Node *tmp = new Node;
+            Node *tmp2 = new Node;
+            Node *deleteTmp = new Node;
+            Node *cyc = new Node;
+            cyc = head;
+            for (int i = 0; i < num; i++) {
+                cyc = cyc->next;
+            }
+            deleteTmp = cyc;
+            if (head != deleteTmp & tail != deleteTmp) {
+                tmp = deleteTmp->next;
+                tmp2 = deleteTmp->prev;
+                tmp2->next = tmp;
+                tmp->prev = tmp2;
+            } else if (head == deleteTmp) {
+                tmp = deleteTmp->next;
+                head = tmp;
+                tmp->prev = NULL;
+            } else if (tail == deleteTmp) {
+                tmp = deleteTmp->prev;
+                tail = tmp;
+                tmp->next = NULL;
+            }
+            std::cout << "Удаление успешно завершено!\n";
+            lenList--;
+        }
+
+    }
+
+    void BidList::DeleteElementData() {
+        char _data{};
+        std::cout << "Введите символ для удаления: ";
+        std::cin >> _data;
         int numberOfDeleteElement = findEl(_data);
-        DeleteElementNumber(numberOfDeleteElement);
+        delet(numberOfDeleteElement);
     }
 
     void BidList::DeleteList() {
@@ -146,7 +198,10 @@ namespace KVA {
 
     }
 
-    void BidList::findElement(char _data) {
+    void BidList::findElement() {
+        char _data{};
+        std::cout << "Введите символ для поиска: ";
+        std::cin >> _data;
         int result{};
         result = findEl(_data);
         if (result == -1) {
@@ -162,16 +217,42 @@ namespace KVA {
         }
         return false;
     }
+
+    void BidList::printEmpty() {
+        if (head == NULL) {
+            std::cout << "Список пуст!!!\n";
+        } else {
+            std::cout << "Список не пуст!\n";
+            printList();
+        }
+    }
+
     BidList BidList::CopyList() {
         BidList a;
-        Node* tmp = new Node;
+        Node *tmp = new Node;
         tmp = head;
-        for (int i = 0; i<lenList;i++) {
-            a.AddToEnd(tmp->data);
+        for (int i = 0; i < lenList; i++) {
+            a.add(tmp->data);
             tmp = tmp->next;
         }
         return a;
     }
+
+    void BidList::add(char _data) {
+        lenList++;
+        Node *tmp = new Node;
+        tmp->next = nullptr;
+        tmp->data = _data;
+        if (!isListEmpty()) {
+            tmp->prev = tail;
+            tail->next = tmp;
+            tail = tmp;
+        } else {
+            tmp->prev = NULL;
+            head = tail = tmp;
+        }
+    }
+
     void BidList::NotRepet() {
         BidList a = CopyList();
         Node *tmp = new Node;
@@ -179,18 +260,18 @@ namespace KVA {
         int st{};
         tmp = a.head;
         std::cout << "Символы, которые входят в последовательность по одному разу: ";
-        for (int i = 0; i<lenList;i++) {
+        for (int i = 0; i < lenList; i++) {
             st = 0;
-            if (tmp->data!='\0') {
+            if (tmp->data != '\0') {
                 tmp2 = tmp->next;
-                for (int j = i+1; j<lenList;j++) {
-                    if (tmp->data==tmp2->data) {
+                for (int j = i + 1; j < lenList; j++) {
+                    if (tmp->data == tmp2->data) {
                         st = 1;
                         tmp2->data = '\0';
                     }
                     tmp2 = tmp2->next;
                 }
-                if (st==0) {
+                if (st == 0) {
                     std::cout << tmp->data << " ";
                 }
             }
