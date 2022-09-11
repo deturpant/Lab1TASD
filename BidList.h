@@ -7,7 +7,7 @@
 
 namespace KVA {
     struct Node {
-        char* data;
+        char *data;
         Node *next;
         Node *prev;
     };
