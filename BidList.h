@@ -16,6 +16,7 @@ namespace KVA {
         Node *head;
         Node *tail;
         int lenList{};
+        int findEl(int _data);
     public:
         BidList();
         void printList();
@@ -24,6 +25,9 @@ namespace KVA {
         void AddToMid(int _data);
         bool isListEmpty();
         void DeleteElementNumber(int num);
+        void findElement(int _data);
+        void DeleteElementData(int _data);
+        void DeleteList();
     };
 
 } // KVA
