@@ -15,11 +15,13 @@ namespace KVA {
     private:
         Node *head;
         Node *tail;
+        int lenList{};
     public:
         BidList();
         void printList();
         void AddToStart(int _data);
         void AddToEnd(int _data);
+        void AddToMid(int _data);
         bool isListEmpty();
     };
 
