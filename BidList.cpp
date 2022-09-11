@@ -21,7 +21,7 @@ namespace KVA {
         std::cout << std::endl;
     }
 
-    void BidList::AddToEnd(int _data) {
+    void BidList::AddToEnd(char* _data) {
         lenList++;
         Node *tmp = new Node;
         tmp->next = nullptr;
@@ -36,7 +36,7 @@ namespace KVA {
         }
     }
 
-    void BidList::AddToStart(int _data) {
+    void BidList::AddToStart(char* _data) {
         lenList++;
         Node *tmp = new Node;
         tmp->data = _data;
@@ -51,7 +51,7 @@ namespace KVA {
         }
     }
 
-    void BidList::AddToMid(int _data) {
+    void BidList::AddToMid(char* _data) {
         Node *tmp = new Node;
         tmp->data = _data;
         Node *cyc = new Node;
@@ -107,7 +107,7 @@ namespace KVA {
 
     }
 
-    void BidList::DeleteElementData(int _data) {
+    void BidList::DeleteElementData(char* _data) {
         int numberOfDeleteElement = findEl(_data);
         DeleteElementNumber(numberOfDeleteElement);
     }
@@ -123,7 +123,7 @@ namespace KVA {
         }
     }
 
-    int BidList::findEl(int _data) {
+    int BidList::findEl(char* _data) {
         Node *cyc = new Node;
         int position = 1;
         cyc = head;
@@ -146,7 +146,7 @@ namespace KVA {
 
     }
 
-    void BidList::findElement(int _data) {
+    void BidList::findElement(char* _data) {
         int result{};
         result = findEl(_data);
         if (result == -1) {
