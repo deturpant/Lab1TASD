@@ -3,17 +3,11 @@
 int main() {
     using namespace KVA;
     BidList list;
-    list.AddToStart(12);
-    list.AddToEnd(5454);
-    list.AddToEnd(123456);
+    list.AddToEnd(12);
+    list.AddToEnd(36);
+    list.AddToEnd(48);
     list.printList();
-    list.AddToMid(999);
-    list.printList();
-    list.AddToMid(7777);
-    list.printList();
-    list.AddToMid(555);
-    list.printList();
-    list.AddToMid(666);
+    list.DeleteElementNumber(1);
     list.printList();
     return 0;
 }

@@ -71,6 +71,43 @@ namespace KVA {
             std::cout << "Добавление в середину возможно при количестве элементов более двух!\n";
         }
     }
+    void BidList::DeleteElementNumber(int num) {
+        if (lenList<num || num <= 0) {
+            std::cout << "Введен неверный индекс. Удаление невозможно\n";
+
+        }
+        else {
+            num--;
+            Node *tmp = new Node;
+            Node *tmp2 = new Node;
+            Node *deleteTmp = new Node;
+            Node *cyc = new Node;
+            cyc = head;
+            for (int i = 0; i < num;i++) {
+                cyc = cyc->next;
+            }
+            deleteTmp = cyc;
+            if (head!=deleteTmp & tail!=deleteTmp) {
+                tmp = deleteTmp->next;
+                tmp2 = deleteTmp->prev;
+                tmp2->next = tmp;
+                tmp->prev = tmp2;
+            }
+            else if (head == deleteTmp) {
+                tmp = deleteTmp->next;
+                head = tmp;
+                tmp->prev = NULL;
+            }
+            else if (tail == deleteTmp) {
+                tmp = deleteTmp->prev;
+                tail = tmp;
+                tmp->next = NULL;
+            }
+            std::cout << "Удаление успешно завершено!\n";
+        }
+
+
+    }
     bool BidList::isListEmpty() {
         if (head==NULL) {
             return true;

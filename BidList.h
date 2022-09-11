@@ -23,6 +23,7 @@ namespace KVA {
         void AddToEnd(int _data);
         void AddToMid(int _data);
         bool isListEmpty();
+        void DeleteElementNumber(int num);
     };
 
 } // KVA
