@@ -21,7 +21,7 @@ namespace KVA {
         std::cout << std::endl;
     }
 
-    void BidList::AddToEnd(char *_data) {
+    void BidList::AddToEnd(char _data) {
         lenList++;
         Node *tmp = new Node;
         tmp->next = nullptr;
@@ -36,7 +36,7 @@ namespace KVA {
         }
     }
 
-    void BidList::AddToStart(char *_data) {
+    void BidList::AddToStart(char _data) {
         lenList++;
         Node *tmp = new Node;
         tmp->data = _data;
@@ -51,7 +51,7 @@ namespace KVA {
         }
     }
 
-    void BidList::AddToMid(char *_data) {
+    void BidList::AddToMid(char _data) {
         Node *tmp = new Node;
         tmp->data = _data;
         Node *cyc = new Node;
@@ -107,7 +107,7 @@ namespace KVA {
 
     }
 
-    void BidList::DeleteElementData(char *_data) {
+    void BidList::DeleteElementData(char _data) {
         int numberOfDeleteElement = findEl(_data);
         DeleteElementNumber(numberOfDeleteElement);
     }
@@ -123,7 +123,7 @@ namespace KVA {
         }
     }
 
-    int BidList::findEl(char *_data) {
+    int BidList::findEl(char _data) {
         Node *cyc = new Node;
         int position = 1;
         cyc = head;
@@ -146,7 +146,7 @@ namespace KVA {
 
     }
 
-    void BidList::findElement(char *_data) {
+    void BidList::findElement(char _data) {
         int result{};
         result = findEl(_data);
         if (result == -1) {
@@ -161,5 +161,41 @@ namespace KVA {
             return true;
         }
         return false;
+    }
+    BidList BidList::CopyList() {
+        BidList a;
+        Node* tmp = new Node;
+        tmp = head;
+        for (int i = 0; i<lenList;i++) {
+            a.AddToEnd(tmp->data);
+            tmp = tmp->next;
+        }
+        return a;
+    }
+    void BidList::NotRepet() {
+        BidList a = CopyList();
+        Node *tmp = new Node;
+        Node *tmp2 = new Node;
+        int st{};
+        tmp = a.head;
+        std::cout << "Символы, которые входят в последовательность по одному разу: ";
+        for (int i = 0; i<lenList;i++) {
+            st = 0;
+            if (tmp->data!='\0') {
+                tmp2 = tmp->next;
+                for (int j = i+1; j<lenList;j++) {
+                    if (tmp->data==tmp2->data) {
+                        st = 1;
+                        tmp2->data = '\0';
+                    }
+                    tmp2 = tmp2->next;
+                }
+                if (st==0) {
+                    std::cout << tmp->data << " ";
+                }
+            }
+            tmp = tmp->next;
+        }
+        std::cout << std::endl;
     }
 } // KVA

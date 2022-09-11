@@ -7,7 +7,7 @@
 
 namespace KVA {
     struct Node {
-        char *data;
+        char data;
         Node *next;
         Node *prev;
     };
@@ -16,18 +16,20 @@ namespace KVA {
         Node *head;
         Node *tail;
         int lenList{};
-        int findEl(char* _data);
+        int findEl(char _data);
+        BidList CopyList();
     public:
         BidList();
         void printList();
-        void AddToStart(char* _data);
-        void AddToEnd(char* _data);
-        void AddToMid(char* _data);
+        void AddToStart(char _data);
+        void AddToEnd(char _data);
+        void AddToMid(char _data);
         bool isListEmpty();
         void DeleteElementNumber(int num);
-        void findElement(char* _data);
-        void DeleteElementData(char* _data);
+        void findElement(char _data);
+        void DeleteElementData(char _data);
         void DeleteList();
+        void NotRepet();
     };
 
 } // KVA
