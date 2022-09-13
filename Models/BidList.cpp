@@ -13,12 +13,13 @@ namespace KVA {
     }
 
     void BidList::printList() {
+        std::cout << "Список: ";
         Node *tmp = head;
         while (tmp != nullptr) {
             std::cout << tmp->data << " ";
             tmp = tmp->next;
         }
-        std::cout << std::endl;
+        std::cout << std::endl << std::endl;
     }
 
     void BidList::AddToEnd() {
@@ -125,7 +126,9 @@ namespace KVA {
         if (lenList < num || num <= 0) {
             std::cout << "Введен неверный индекс. Удаление невозможно\n";
 
-        } else {
+        }
+        else
+        {
             num--;
             Node *tmp = new Node;
             Node *tmp2 = new Node;
@@ -153,7 +156,6 @@ namespace KVA {
             std::cout << "Удаление успешно завершено!\n";
             lenList--;
         }
-
     }
 
     void BidList::DeleteElementData() {
@@ -166,13 +168,19 @@ namespace KVA {
 
     void BidList::DeleteList() {
         if (!isListEmpty()) {
-            head = NULL;
+            Node* tmp = new Node;
+            while (head!=NULL) {
+                tmp = head;
+                head = head->next;
+                delete[] tmp;
+            }
             tail = NULL;
             lenList = 0;
             std::cout << "Список удален.\n";
         } else {
             std::cout << "Список пустой. Удаление невозможно\n";
         }
+
     }
 
     int BidList::findEl(char _data) {
