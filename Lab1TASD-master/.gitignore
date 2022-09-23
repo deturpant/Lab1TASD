@@ -42,3 +42,5 @@
 /cmake-build-debug/.cmake/api/v1/query/toolchains-v1
 /cmake-build-debug/.cmake/api/v1/reply/toolchains-v1-d06480eadcc461d85546.json
 /.idea/vcs.xml
+/cmake-build-debug/
+/CMakeFiles/
