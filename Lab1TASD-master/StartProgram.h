@@ -51,25 +51,26 @@ int del() {
 int ex() {
     return 11;
 }
-void startProgramm(BidList<char>* list, MyMenu menu) {
+template <typename T>
+void startProgramm(BidList<T>* list, MyMenu menu) {
     while (menu.runCommand()) {
         if (menu.getSelect() == print()) {
             list->printList();
         }
         if (menu.getSelect() == addElEnd()) {
-            list->AddToEnd();
+            list->addToEnd();
         }
         if (menu.getSelect() == addElMid()) {
-            list->AddToMid();
+            list->addToMid();
         }
         if (menu.getSelect() == addElSt()) {
-            list->AddToStart();
+            list->addToStart();
         }
         if (menu.getSelect() == deleteNum()) {
-            list->DeleteElementNumber();
+            list->deleteElementNumber();
         }
         if (menu.getSelect() == deleteData()) {
-            list->DeleteElementData();
+            list->deleteElementData();
         }
         if (menu.getSelect() == findEl()) {
             list->findElement();
@@ -78,10 +79,10 @@ void startProgramm(BidList<char>* list, MyMenu menu) {
             list->printEmpty();
         }
         if (menu.getSelect() == solve()) {
-            list->NotRepet();
+            list->notRepet();
         }
         if (menu.getSelect() == del()) {
-            list->DeleteList();
+            list->deleteList();
         }
         if (menu.getSelect() == ex()) {
             exit(0);
