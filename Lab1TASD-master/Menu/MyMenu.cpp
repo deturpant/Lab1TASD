@@ -1,6 +1,7 @@
 #include "MyMenu.h"
 #include <iostream>
-
+#include <limits>
+#include "../Models/MyException.h"
 namespace KVA {
 
     MyMenu::MyMenu(char *title, MyMenuItem *items, size_t count) : m_title(title), m_items(items), m_count(count) {}
@@ -40,8 +41,11 @@ namespace KVA {
         print();
         std::cout << "\n   Select >> ";
         std::cin >> m_select;
-        if (m_select > m_count || m_select <= 0) {
-            throw ">>>!\n\n";
+        if (std::cin.fail() || m_select > m_count || m_select <= 0) {
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cin.clear();
+            throw MyException{"Invalid index command menu"};
         }
         return m_items[m_select - 1].run();
     }

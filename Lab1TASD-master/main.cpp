@@ -3,7 +3,7 @@
 #include "Menu/MyMenu.h"
 #include "Menu/MyMenuItem.h"
 #include "StartProgram.h"
-
+#include "Models/MyException.h"
 using namespace KVA;
 
 int main() {

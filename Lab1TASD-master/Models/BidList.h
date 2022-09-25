@@ -2,6 +2,9 @@
 // Created by deturpant on 11.09.22.
 //
 #include <iostream>
+#include "MyException.h"
+#include <cstring>
+#include <limits>
 
 #ifndef LAB1_BIDLIST_H
 #define LAB1_BIDLIST_H
@@ -20,39 +23,24 @@ namespace KVA {
         Node *head;
         Node *tail;
         int lenList{};
-
         int findEl(T _data);
-
         BidList<T> copyList();
-
         void add(T _data);
-
         void delet(int num);
-
         bool isListEmpty();
-
     public:
         BidList();
-
         void printList();
-
         void addToStart();
-
         void addToEnd();
-
         void addToMid();
-
         void deleteElementNumber();
-
         void findElement();
-
         void deleteElementData();
-
         void deleteList();
-
         void notRepet();
-
         void printEmpty();
+        void clearCIN();
     };
 
     template<typename T>
@@ -61,7 +49,12 @@ namespace KVA {
         tail = nullptr;
         lenList = 0;
     }
-
+    template<typename T>
+    void BidList<T>::clearCIN() {
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        std::cin.clear();
+    }
     template<typename T>
     void BidList<T>::printList() {
         if (!isListEmpty()) {
@@ -73,10 +66,9 @@ namespace KVA {
             }
             std::cout << "]\n\n\n";
         } else {
-            std::cout << "\n\nСпиcок пуст.\n\n";
+            throw MyException{"List empty"};
         }
     }
-
     template<typename T>
     void BidList<T>::addToEnd() {
         T _data{};
@@ -86,6 +78,7 @@ namespace KVA {
         Node *tmp = new Node;
         tmp->next = nullptr;
         tmp->data = _data;
+        clearCIN();
         if (!isListEmpty()) {
             tmp->prev = tail;
             tail->next = tmp;
@@ -104,6 +97,7 @@ namespace KVA {
         lenList++;
         Node *tmp = new Node;
         tmp->data = _data;
+        clearCIN();
         tmp->prev = nullptr;
         if (!isListEmpty()) {
             tmp->next = head;
@@ -124,10 +118,10 @@ namespace KVA {
         int num{};
         std::cin >> num;
         num -= 2;
-        if (lenList < num) {
-            std::cout << "\nВведенная позиция для добавления некорректна!\n";
+        if (lenList <= num) {
+            throw MyException{"Incorrect position when adding by index"};
         } else if (num == -1) {
-            std::cout << "pass\n\n\n";
+            add(_data);
         } else if (num >= 0) {
             Node *tmp = new Node;
             tmp->data = _data;
@@ -145,8 +139,9 @@ namespace KVA {
             std::cout << "Элемент " << _data << " успешно помещен в позицию №" << num + 2 << "\n\n\n";
         }
         else {
-            std::cout << "\nВведенная позиция для добавления некорректна!\n";
+            throw MyException{"Incorrect position when adding by index"};
         }
+        clearCIN();
     }
 
     template<typename T>
@@ -156,7 +151,7 @@ namespace KVA {
         std::cout << "Пожалуйства, введите номер для удаления: ";
         std::cin >> num;
         if (lenList < num || num <= 0) {
-            std::cout << "Введен неверный индекс. Удаление невозможно\n";
+            throw MyException{"Invalid delete index"};
 
         } else {
             num--;
@@ -192,7 +187,7 @@ namespace KVA {
     template<typename T>
     void BidList<T>::delet(int num) {
         if (lenList < num || num <= 0) {
-            std::cout << "Введен неверный индекс. Удаление невозможно\n";
+            throw MyException{"Invalid symbol when deleting by value"};
 
         } else {
             num--;
@@ -246,7 +241,7 @@ namespace KVA {
             lenList = 0;
             std::cout << "Список удален.\n";
         } else {
-            std::cout << "Список пустой. Удаление невозможно\n";
+            throw MyException{"List empty"};
         }
 
     }
@@ -283,7 +278,7 @@ namespace KVA {
         int result{};
         result = findEl(_data);
         if (result == -1) {
-            std::cout << "Элемент не найден! Проверьте вводимые данные\n";
+            throw MyException{"Element not found when searching"};
         } else {
             std::cout << "Элемент найден под номером " << result << " с данными: " << _data << "\n";
         }
@@ -300,7 +295,7 @@ namespace KVA {
     template<typename T>
     void BidList<T>::printEmpty() {
         if (head == NULL) {
-            std::cout << "Список пуст!!!\n";
+            throw MyException{"List empty"};
         } else {
             std::cout << "Список не пуст!\n";
             printList();
@@ -323,14 +318,14 @@ namespace KVA {
     void BidList<T>::add(T _data) {
         lenList++;
         Node *tmp = new Node;
-        tmp->next = nullptr;
         tmp->data = _data;
+        tmp->prev = nullptr;
         if (!isListEmpty()) {
-            tmp->prev = tail;
-            tail->next = tmp;
-            tail = tmp;
+            tmp->next = head;
+            head->prev = tmp;
+            head = tmp;
         } else {
-            tmp->prev = NULL;
+            tmp->next = NULL;
             head = tail = tmp;
         }
     }
@@ -341,26 +336,40 @@ namespace KVA {
         Node *tmp = new Node;
         Node *tmp2 = new Node;
         int st{};
+        bool state = false;
+        bool state2 = false;
         tmp = a.head;
-        std::cout << "Символы, которые входят в последовательность по одному разу: ";
-        for (int i = 0; i < lenList; i++) {
-            st = 0;
-            if (tmp->data != '\0') {
-                tmp2 = tmp->next;
-                for (int j = i + 1; j < lenList; j++) {
-                    if (tmp->data == tmp2->data) {
-                        st = 1;
-                        tmp2->data = '\0';
+        if (!isListEmpty()) {
+            for (int i = 0; i < lenList; i++) {
+                st = 0;
+                if (tmp->data != '\0') {
+                    tmp2 = tmp->next;
+                    for (int j = i + 1; j < lenList; j++) {
+                        if (tmp->data == tmp2->data) {
+                            st = 1;
+                            tmp2->data = '\0';
+                        }
+                        tmp2 = tmp2->next;
                     }
-                    tmp2 = tmp2->next;
+                    if (st == 0) {
+                        if (!state2) {
+                            std::cout << "Символы, которые входят в последовательность по одному разу: ";
+                            state2 = true;
+                        }
+                        std::cout << tmp->data << " ";
+                        state = true;
+                    }
                 }
-                if (st == 0) {
-                    std::cout << tmp->data << " ";
-                }
+                tmp = tmp->next;
             }
-            tmp = tmp->next;
+            if (!state) {
+                throw MyException{"Not found characters appearing once"};
+            }
+            std::cout << std::endl;
         }
-        std::cout << std::endl;
+        else {
+            throw MyException{"List empty"};
+        }
     }
 
 } // KVA

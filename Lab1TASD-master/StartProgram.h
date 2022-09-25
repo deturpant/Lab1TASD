@@ -5,7 +5,7 @@
 #include "Models/BidList.h"
 #include "Menu/MyMenu.h"
 #include "Menu/MyMenuItem.h"
-
+#include "Models/MyException.h"
 using namespace KVA;
 
 int addElSt() {
@@ -53,40 +53,46 @@ int ex() {
 }
 template <typename T>
 void startProgramm(BidList<T>* list, MyMenu menu) {
+    try {
     while (menu.runCommand()) {
-        if (menu.getSelect() == print()) {
-            list->printList();
+            if (menu.getSelect() == print()) {
+                list->printList();
+            }
+            if (menu.getSelect() == addElEnd()) {
+                list->addToEnd();
+            }
+            if (menu.getSelect() == addElMid()) {
+                list->addToMid();
+            }
+            if (menu.getSelect() == addElSt()) {
+                list->addToStart();
+            }
+            if (menu.getSelect() == deleteNum()) {
+                list->deleteElementNumber();
+            }
+            if (menu.getSelect() == deleteData()) {
+                list->deleteElementData();
+            }
+            if (menu.getSelect() == findEl()) {
+                list->findElement();
+            }
+            if (menu.getSelect() == empty()) {
+                list->printEmpty();
+            }
+            if (menu.getSelect() == solve()) {
+                list->notRepet();
+            }
+            if (menu.getSelect() == del()) {
+                list->deleteList();
+            }
+            if (menu.getSelect() == ex()) {
+                exit(0);
+            }
         }
-        if (menu.getSelect() == addElEnd()) {
-            list->addToEnd();
-        }
-        if (menu.getSelect() == addElMid()) {
-            list->addToMid();
-        }
-        if (menu.getSelect() == addElSt()) {
-            list->addToStart();
-        }
-        if (menu.getSelect() == deleteNum()) {
-            list->deleteElementNumber();
-        }
-        if (menu.getSelect() == deleteData()) {
-            list->deleteElementData();
-        }
-        if (menu.getSelect() == findEl()) {
-            list->findElement();
-        }
-        if (menu.getSelect() == empty()) {
-            list->printEmpty();
-        }
-        if (menu.getSelect() == solve()) {
-            list->notRepet();
-        }
-        if (menu.getSelect() == del()) {
-            list->deleteList();
-        }
-        if (menu.getSelect() == ex()) {
-            exit(0);
-        }
+    }
+    catch (const MyException& exception) {
+        std::cout << "Error: " << exception.getError() << "\n";
+        startProgramm(list, menu);
     }
 }
 
