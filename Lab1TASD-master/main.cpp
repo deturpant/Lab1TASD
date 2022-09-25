@@ -6,7 +6,7 @@
 #include "Models/MyException.h"
 using namespace KVA;
 
-const int ITEMS_COUNT = 13;
+const int ITEMS_COUNT = 14;
 int main() {
     BidList<char>* list = new BidList<char>;
     MyMenuItem items[ITEMS_COUNT]{
@@ -16,6 +16,7 @@ int main() {
             MyMenuItem{"Удалить элемент по номеру", deleteNum},
             MyMenuItem{"Удалить элемент по значению", deleteData},
             MyMenuItem{"Вывести список на экран", print},
+            MyMenuItem{"Вывести список с конца на экран", printRev},
             MyMenuItem{"Поиск по значению", findEl},
             MyMenuItem{"Проверка на пустоту списка", empty},
             MyMenuItem{"Поиск неповторяющихся символов", solve},

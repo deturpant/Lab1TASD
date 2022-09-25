@@ -33,6 +33,7 @@ namespace KVA {
     public:
         BidList();
         void printList();
+        void printListReverse();
         void addToStart();
         void addToEnd();
         void addToMid();
@@ -73,6 +74,24 @@ namespace KVA {
             throw MyException{"List empty"};
         }
     }
+
+    template<typename T>
+    void BidList<T>::printListReverse() {
+        if (!isListEmpty())
+        {
+            std::cout << "\n\n\nList: [ ";
+            Node* tmp = tail;
+            while (tmp!=NULL) {
+                std::cout << tmp->data << " ";
+                tmp = tmp->prev;
+            }
+            std::cout << "]\n\n\n";
+        }
+        else {
+            throw MyException{"List empty"};
+        }
+    }
+
     template<typename T>
     void BidList<T>::addToEnd() {
         T _data{};

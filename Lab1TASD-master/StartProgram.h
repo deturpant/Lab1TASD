@@ -11,57 +11,55 @@ using namespace KVA;
 int addElSt() {
     return 2;
 }
-
 int addElEnd() {
     return 1;
 }
-
 int addElMid() {
     return 3;
 }
-
 int deleteNum() {
     return 4;
 }
-
 int deleteData() {
     return 5;
 }
-
 int print() {
     return 6;
 }
-
-int findEl() {
+int printRev() {
     return 7;
-}
-
-int empty() {
+    }
+int findEl() {
     return 8;
 }
-
-int solve() {
+int empty() {
     return 9;
 }
-
-int del() {
+int solve() {
     return 10;
 }
-int readFile() {
+int del() {
     return 11;
 }
-int writeFile() {
+int readFile() {
     return 12;
 }
-int ex() {
+int writeFile() {
     return 13;
 }
+int ex() {
+    return 14;
+}
+
 template <typename T>
 void startProgramm(BidList<T>* list, MyMenu menu) {
     try {
     while (menu.runCommand()) {
             if (menu.getSelect() == print()) {
                 list->printList();
+            }
+            if (menu.getSelect() == printRev()) {
+                list->printListReverse();
             }
             if (menu.getSelect() == addElEnd()) {
                 list->addToEnd();
