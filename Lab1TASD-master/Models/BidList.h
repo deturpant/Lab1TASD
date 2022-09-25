@@ -5,6 +5,7 @@
 #include "MyException.h"
 #include <cstring>
 #include <limits>
+#include <fstream>
 
 #ifndef LAB1_BIDLIST_H
 #define LAB1_BIDLIST_H
@@ -28,6 +29,7 @@ namespace KVA {
         void add(T _data);
         void delet(int num);
         bool isListEmpty();
+        ~BidList();
     public:
         BidList();
         void printList();
@@ -41,6 +43,8 @@ namespace KVA {
         void notRepet();
         void printEmpty();
         void clearCIN();
+        void readFromFile();
+        void outToFile();
     };
 
     template<typename T>
@@ -231,13 +235,11 @@ namespace KVA {
     template<typename T>
     void BidList<T>::deleteList() {
         if (!isListEmpty()) {
-            Node *tmp = new Node;
-            while (head != NULL) {
-                tmp = head;
-                head = head->next;
-                delete[] tmp;
+            while (head) {
+                tail = head->next;
+                delete head;
+                head = tail;
             }
-            tail = NULL;
             lenList = 0;
             std::cout << "Список удален.\n";
         } else {
@@ -290,6 +292,35 @@ namespace KVA {
             return true;
         }
         return false;
+    }
+
+    template<typename T>
+    void BidList<T>::readFromFile() {
+        std::ifstream in;
+        std::string line;
+        T tempData;
+        in.open("../input.txt", std::ios::in);
+        T s;
+        while (in.get(s) && !in.eof()) {
+            if (std::isdigit(s) || std::isalpha(s)) {
+                add(s);
+            }
+        }
+        in.close();
+        std::cout << "\nЧтение данных с файла завершено";
+        printList();
+    }
+    template<typename T>
+    void BidList<T>::outToFile() {
+        std::ofstream  out;
+        out.open("../output.txt", std::ios::out);
+        Node* node = head;
+        for (int i =0; i<lenList;i++) {
+            out << node->data << " ";
+            node = node->next;
+        }
+        out.close();
+        std::cout << "\n\nВывод данных в файл завершен!\n\n";
     }
 
     template<typename T>
@@ -370,8 +401,22 @@ namespace KVA {
         else {
             throw MyException{"List empty"};
         }
+        while (a.head) {
+            a.tail = a.head->next;
+            delete a.head;
+            a.head = a.tail;
+        }
     }
+    template <typename T>
+    BidList<T>::~BidList() {
+        while (head) {
 
+            tail = head->next;
+            delete head;
+            head = tail;
+        }
+        lenList = 0;
+    }
 } // KVA
 
 #endif //LAB1_BIDLIST_H

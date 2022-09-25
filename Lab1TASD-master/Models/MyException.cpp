@@ -21,5 +21,6 @@ namespace KVA {
         std::time_t end_time = std::chrono::system_clock::to_time_t(now);
         file.open("../log.txt", std::ios::app);
         file <<  "WARNING: " << m_error.c_str() << " | " << std::ctime(&end_time);
+        file.close();
     }
 } // KVA

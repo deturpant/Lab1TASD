@@ -47,9 +47,14 @@ int solve() {
 int del() {
     return 10;
 }
-
-int ex() {
+int readFile() {
     return 11;
+}
+int writeFile() {
+    return 12;
+}
+int ex() {
+    return 13;
 }
 template <typename T>
 void startProgramm(BidList<T>* list, MyMenu menu) {
@@ -85,7 +90,14 @@ void startProgramm(BidList<T>* list, MyMenu menu) {
             if (menu.getSelect() == del()) {
                 list->deleteList();
             }
+            if (menu.getSelect() == readFile()) {
+                list->readFromFile();
+            }
+            if (menu.getSelect() == writeFile()) {
+                list->outToFile();
+            }
             if (menu.getSelect() == ex()) {
+                list->outToFile();
                 exit(0);
             }
         }
