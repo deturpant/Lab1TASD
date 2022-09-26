@@ -6,7 +6,6 @@
 #include <cstring>
 #include <limits>
 #include <fstream>
-
 #ifndef LAB1_BIDLIST_H
 #define LAB1_BIDLIST_H
 
@@ -24,26 +23,20 @@ namespace KVA {
         Node *head;
         Node *tail;
         int lenList{};
-        int findEl(T _data);
         BidList<T> copyList();
-        void add(T _data);
-        void delet(int num);
-        bool isListEmpty();
         ~BidList();
     public:
         BidList();
+        bool isListEmpty();
         void printList();
+        int findEl(T _data);
         void printListReverse();
-        void addToStart();
-        void addToEnd();
-        void addToMid();
-        void deleteElementNumber();
-        void findElement();
-        void deleteElementData();
+        void addToStart(T _data);
+        void addToMid(T _data, int num);
+        void pushback(T _data);
+        void deleteElementNumber(int num);
         void deleteList();
         void notRepet();
-        void printEmpty();
-        void clearCIN();
         void readFromFile();
         void outToFile();
     };
@@ -54,12 +47,7 @@ namespace KVA {
         tail = nullptr;
         lenList = 0;
     }
-    template<typename T>
-    void BidList<T>::clearCIN() {
-        std::cin.clear();
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-        std::cin.clear();
-    }
+
     template<typename T>
     void BidList<T>::printList() {
         if (!isListEmpty()) {
@@ -93,15 +81,11 @@ namespace KVA {
     }
 
     template<typename T>
-    void BidList<T>::addToEnd() {
-        T _data{};
-        std::cout << "Введите символ для добавления в список: ";
-        std::cin >> _data;
+    void BidList<T>::pushback(T _data) {
         lenList++;
         Node *tmp = new Node;
         tmp->next = nullptr;
         tmp->data = _data;
-        clearCIN();
         if (!isListEmpty()) {
             tmp->prev = tail;
             tail->next = tmp;
@@ -111,16 +95,11 @@ namespace KVA {
             head = tail = tmp;
         }
     }
-
     template<typename T>
-    void BidList<T>::addToStart() {
-        T _data{};
-        std::cout << "Введите символ для добавления в список: ";
-        std::cin >> _data;
+    void BidList<T>::addToStart(T _data) {
         lenList++;
         Node *tmp = new Node;
         tmp->data = _data;
-        clearCIN();
         tmp->prev = nullptr;
         if (!isListEmpty()) {
             tmp->next = head;
@@ -133,18 +112,12 @@ namespace KVA {
     }
 
     template<typename T>
-    void BidList<T>::addToMid() {
-        T _data{};
-        std::cout << "Введите символ для добавления в список: ";
-        std::cin >> _data;
-        std::cout << "Введите позицию для добавления в список: ";
-        int num{};
-        std::cin >> num;
+    void BidList<T>::addToMid(T _data, int num) {
         num -= 2;
         if (lenList <= num) {
             throw MyException{"Incorrect position when adding by index"};
         } else if (num == -1) {
-            add(_data);
+            pushback(_data);
         } else if (num >= 0) {
             Node *tmp = new Node;
             tmp->data = _data;
@@ -154,9 +127,9 @@ namespace KVA {
                 cyc = cyc->next;
             }
             tmp->next = cyc->next;
-            tmp->prev = cyc->prev;
+            tmp->prev = cyc;
             cyc->next = tmp;
-            cyc = cyc->next;
+            cyc = cyc->next->next;
             cyc->prev = tmp;
             lenList++;
             std::cout << "Элемент " << _data << " успешно помещен в позицию №" << num + 2 << "\n\n\n";
@@ -164,51 +137,10 @@ namespace KVA {
         else {
             throw MyException{"Incorrect position when adding by index"};
         }
-        clearCIN();
     }
 
     template<typename T>
-    void BidList<T>::deleteElementNumber() {
-        int num{};
-        printList();
-        std::cout << "Пожалуйства, введите номер для удаления: ";
-        std::cin >> num;
-        if (lenList < num || num <= 0) {
-            throw MyException{"Invalid delete index"};
-
-        } else {
-            num--;
-            Node *tmp = new Node;
-            Node *tmp2 = new Node;
-            Node *deleteTmp = new Node;
-            Node *cyc = new Node;
-            cyc = head;
-            for (int i = 0; i < num; i++) {
-                cyc = cyc->next;
-            }
-            deleteTmp = cyc;
-            if (head != deleteTmp & tail != deleteTmp) {
-                tmp = deleteTmp->next;
-                tmp2 = deleteTmp->prev;
-                tmp2->next = tmp;
-                tmp->prev = tmp2;
-            } else if (head == deleteTmp) {
-                tmp = deleteTmp->next;
-                head = tmp;
-                tmp->prev = NULL;
-            } else if (tail == deleteTmp) {
-                tmp = deleteTmp->prev;
-                tail = tmp;
-                tmp->next = NULL;
-            }
-            std::cout << "Удаление успешно завершено!\n";
-            lenList--;
-        }
-
-    }
-
-    template<typename T>
-    void BidList<T>::delet(int num) {
+    void BidList<T>::deleteElementNumber(int num) {
         if (lenList < num || num <= 0) {
             throw MyException{"Invalid symbol when deleting by value"};
 
@@ -242,14 +174,6 @@ namespace KVA {
         }
     }
 
-    template<typename T>
-    void BidList<T>::deleteElementData() {
-        T _data{};
-        std::cout << "Введите символ для удаления: ";
-        std::cin >> _data;
-        int numberOfDeleteElement = findEl(_data);
-        delet(numberOfDeleteElement);
-    }
 
     template<typename T>
     void BidList<T>::deleteList() {
@@ -292,20 +216,6 @@ namespace KVA {
     }
 
     template<typename T>
-    void BidList<T>::findElement() {
-        T _data{};
-        std::cout << "Введите символ для поиска: ";
-        std::cin >> _data;
-        int result{};
-        result = findEl(_data);
-        if (result == -1) {
-            throw MyException{"Element not found when searching"};
-        } else {
-            std::cout << "Элемент найден под номером " << result << " с данными: " << _data << "\n";
-        }
-    }
-
-    template<typename T>
     bool BidList<T>::isListEmpty() {
         if (head == NULL) {
             return true;
@@ -322,7 +232,7 @@ namespace KVA {
         T s;
         while (in.get(s) && !in.eof()) {
             if (std::isdigit(s) || std::isalpha(s)) {
-                add(s);
+                pushback(s);
             }
         }
         in.close();
@@ -342,15 +252,6 @@ namespace KVA {
         std::cout << "\n\nВывод данных в файл завершен!\n\n";
     }
 
-    template<typename T>
-    void BidList<T>::printEmpty() {
-        if (head == NULL) {
-            throw MyException{"List empty"};
-        } else {
-            std::cout << "Список не пуст!\n";
-            printList();
-        }
-    }
 
     template<typename T>
     BidList<T> BidList<T>::copyList() {
@@ -358,27 +259,12 @@ namespace KVA {
         Node *tmp = new Node;
         tmp = head;
         for (int i = 0; i < lenList; i++) {
-            a.add(tmp->data);
+            a.pushback(tmp->data);
             tmp = tmp->next;
         }
         return a;
     }
 
-    template<typename T>
-    void BidList<T>::add(T _data) {
-        lenList++;
-        Node *tmp = new Node;
-        tmp->data = _data;
-        tmp->prev = nullptr;
-        if (!isListEmpty()) {
-            tmp->next = head;
-            head->prev = tmp;
-            head = tmp;
-        } else {
-            tmp->next = NULL;
-            head = tail = tmp;
-        }
-    }
 
     template<typename T>
     void BidList<T>::notRepet() {
